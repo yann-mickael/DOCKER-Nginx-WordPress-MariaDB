@@ -69,27 +69,38 @@ cmd
 
 🔄 Supprimer les volumes de données pour tout nettoyer complètement :
 # docker-compose down --volumes
+Arborescence
 
-https://medium.com/cypik/deploying-a-php-web-app-with-docker-compose-nginx-and-mariadb-a-complete-guide-d8940f23f1de
-
-project-root/
-│
+Projet-Plateforme/
+├── .env
 ├── docker-compose.yml
 ├── nginx/
 │   └── nginx.conf
-├── wordpress/
-│   └── (fichiers WordPress seront créés automatiquement)
-└── mariadb/
-    └── (données de la DB seront stockées ici)
+│   └── Conf/
+        └── conf.d
+│   └── Dokerfile
+│   └── defaullt.conf
+├── php/
+│   ├── Dockerfile     
+│   └── www/             
+├── www/ wp-config.php
+│   ├── wp-admin/
+│   ├── wp-content/
+│   ├── wp-includes/
+│   ├── index.php
+│   ├── wp-config.php
+│   └── … (autres fichiers WordPress)
+└── (le cas échéant)
 
-
+🔄 Fichier .env 
 MYSQL_ROOT_PASSWORD=Laplateforme  # Mot de passe pour l'utilisateur root MySQL
 MYSQL_USER=Laplateforme           # Nom d'utilisateur pour la base de données
-MYSQL_PASSWORD=Laplateforme       # Mot de passe de l'utilisateur MySQL
+MYSQL_PASSWORD=XXXXXXXXXXXX       # Mot de passe de l'utilisateur MySQL
 MYSQL_DATABASE=wordpress          # Nom de la base de données à créer
 
 
-s les services suivants :
+
+🔄les services suivants :
 •	nginx : pour servir WordPress et phpMyAdmin.
 •	php-fpm : pour exécuter le code PHP (utilisé par WordPress et phpMyAdmin).
 •	MariaDB : la base de données pour WordPress et phpMyAdmin.
