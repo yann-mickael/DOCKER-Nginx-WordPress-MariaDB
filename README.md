@@ -12,73 +12,63 @@ Mettre en place un volume partagé pour /var/www/html entre NGINX, PHP et WordPr
 Configuration manuelle du serveur (pas d'image wordpress clé-en-main).
 
 🧩 Arborescence recommandée :
-arduino
-Copier
-Modifier
+
 project-root/
 ├── docker-compose.yml
 ├── nginx/
 │   └── default.conf
 ├── html/            ← (le volume commun WordPress + config PHP)
-📄 docker-compose.yml
-yaml
-Copier
-Modifier
-version: '3.8'
+
+📄Docker-compose.yml
 
 services:
-  db:
-    image: mariadb:latest
+  mariadb:
+    image: mariadb:10.5  # Image de la base de données MariaDB
     container_name: mariadb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: wordpress
-      MYSQL_USER: wpuser
-      MYSQL_PASSWORD: wppass
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql  # persistance des données
 
   php:
-    image: php:8.2-fpm
-    container_name: php-fpm
+    build: ./php                        # Dockerfile dans le dossier ./php
+    container_name: php
     restart: always
     volumes:
-      - ./html:/var/www/html
+      - ./www:/var/www/html             # ton WordPress est monté ici
     depends_on:
-      - db
+      - mariadb                         # dépend de MariaDB
 
   nginx:
     image: nginx:latest
     container_name: nginx
+    ports:
+      - "80:80"                       # exposer sur http://localhost:8000
+    volumes:
+      - ./www:/var/www/html             # même dossier WordPress
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # chemin modifié vers nginx.conf
+    depends_on:
+      - php                             # dépend de php
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
     restart: always
     ports:
-      - "80:80"
-    volumes:
-      - ./html:/var/www/html
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - php
-
-  wordpress-setup:
-    image: wordpress:cli
-    container_name: wp-cli
-    depends_on:
-      - db
-    volumes:
-      - ./html:/var/www/html
-    entrypoint: >
-      sh -c "
-        if [ ! -f /var/www/html/wp-config.php ]; then
-          wp core download --path=/var/www/html --allow-root &&
-          wp config create --path=/var/www/html --dbname=wordpress --dbuser=wpuser --dbpass=wppass --dbhost=db --allow-root &&
-          wp core install --url=localhost --title='Mon Site' --admin_user=admin --admin_password=admin --admin_email=test@example.com --allow-root
-        fi
-      "
-    restart: "no"
+      - "8080:80"                       # accessible sur http://localhost:8080
+    environment:
+      PMA_HOST: mariadb                # phpMyAdmin pointe sur le conteneur mariadb
+      PMA_PORT: 3306
 
 volumes:
-  db_data:
+  db_data:                              # volume pour la base de données
+
+
+
 📄 nginx/default.conf (fichier indispensable)
 nginx
 Copier
@@ -98,64 +88,41 @@ server {
         include fastcgi_params;
         fastcgi_pass php:9000;
         fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    }
-
-    location ~ /\.ht {
-        deny all;
-    }
-}
-🛠️ Instructions
-Créer l’arborescence décrite plus haut.
+        fastcgi_par
 
 Lancer :
 
-bash
-Copier
-Modifier
 docker-compose up --build
 Attendre l’installation automatique de WordPress (par wp-cli).
 
 Accéder au site : http://localhost
 
-Souhaitez-vous que je vous fournisse un .zip prêt à l’emploi avec tous les fichiers ?
-
-
-
-
-
-
-
-Vous avez dit :
-fait moi un fichier readme.me
-
-
-ChatGPT a dit :
-Voici un fichier README.md que tu peux placer à la racine de ton projet Docker WordPress. Il décrit clairement le but du projet, les prérequis, l'installation, et l'utilisation :
-
-📄 README.md
-markdown
-Copier
-Modifier
-# 🐳 Environnement WordPress avec Docker (NGINX + PHP-FPM + MariaDB)
-
-Ce projet permet de lancer un site WordPress en local à l’aide de **Docker Compose** avec les images officielles de **NGINX**, **PHP-FPM**, **MariaDB** et **WP-CLI**.  
-La dernière version de WordPress est installée automatiquement au démarrage grâce à un conteneur `wp-cli`.
-
 ---
 
 ## 📁 Structure du projet
-
-project-root/
-├── docker-compose.yml # Fichier principal Docker Compose
-├── nginx/
-│ └── default.conf # Configuration NGINX
-├── html/ # Volume partagé : WordPress + fichiers PHP
-├── README.md
-
-yaml
 Copier
-Modifier
+/projet-docker
+│
+├── docker-compose.yml
+├── .env
+│
+├── nginx
+│   ├── Dockerfile
+│   ├── nginx.conf
+│   └── conf.d
+│       └── default.conf
+│
+├── certbot
+│   ├── webroot
+│   └── letsencrypt
+│
+├── fail2ban
+│   ├── Dockerfile
+│   └── jail.local
+│
+└── data
+    ├── mariadb
+    └── wordpress
 
 ---
 
