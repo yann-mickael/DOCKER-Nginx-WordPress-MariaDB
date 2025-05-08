@@ -8,7 +8,7 @@ Docker -v
 Docker version compose
 
 
-Redémarrer les services Docker : Retourne dans ton terminal et exécute la commande suivante pour appliquer les changements :
+🔄 Redémarrer les services Docker : Retourne dans ton terminal et exécute la commande suivante pour appliquer les changements :
 docker compose up -d –build
 Signification :
 •	docker compose : utilise Docker Compose (nouvelle syntaxe intégrée à Docker CLI).
@@ -16,31 +16,28 @@ Signification :
 •	-d : exécute les conteneurs en mode détaché (en arrière-plan).
 •	--build : force la reconstruction des images, même si elles existent déjà.
 
-Nettoyer les conteneurs orphelins
+🔄 Nettoyer les conteneurs orphelins
 •docker compose down --remove-orphans
 
 
-Lister tous les conteneurs du projet :
-• docker compose ps --all
-
-
-https://www.simplehomelab.com/wordpress-on-docker-traefik/?utm_source=chatgpt.com
+🔄 Lister tous les conteneurs du projet :
+# docker compose ps --all
 
 
 
 🔄  Redémarrer les services Docker
 Après avoir vérifié ou modifié le fichier docker-compose.yml, redémarrez les services Docker pour appliquer les changements :
-• docker compose down
-• docker compose up -d
+# docker compose down
+# docker compose up -d
 
 
-Permissions : Vérifiez que les permissions du répertoire monté sont correctes. 
+🔄 Permissions : Vérifiez que les permissions du répertoire monté sont correctes. 
 Les conteneurs doivent avoir les droits nécessaires pour lire et écrire dans ce répertoire.
 # sudo chown -R 33:33 /chemin/vers/votre/dossier/wordpress
-https://forums.docker.com/t/nginx-proxy-manager-cant-connect-to-docker-containers-502-bad-gateway/146451
+
 
 🔄 Vérifier le contenu du volume
-exemple pour vérifier que le volume contient bien les fichiers de WordPress :
+Exemple pour vérifier que le volume contient bien les fichiers de WordPress :
 # docker run --rm -v wordpress_data:/data alpine ls /data
 
 🔄 Localisation des volumes Docker sur Windows
@@ -65,6 +62,8 @@ cmd
 
 🔄 Supprimer les volumes de données pour tout nettoyer complètement :
 # docker-compose down --volumes
+
+
 Arborescence
 
 Projet-Plateforme/
@@ -88,6 +87,8 @@ Projet-Plateforme/
 │   └── … (autres fichiers WordPress)
 └── (le cas échéant)
 
+
+
 🔄 Fichier .env 
 MYSQL_ROOT_PASSWORD=Laplateforme  # Mot de passe pour l'utilisateur root MySQL
 MYSQL_USER=Laplateforme           # Nom d'utilisateur pour la base de données
@@ -101,6 +102,5 @@ MYSQL_DATABASE=wordpress          # Nom de la base de données à créer
 •	php-fpm : pour exécuter le code PHP (utilisé par WordPress et phpMyAdmin).
 •	MariaDB : la base de données pour WordPress et phpMyAdmin.
 •	phpMyAdmin : interface web pour gérer MariaDB.
-
 
 
