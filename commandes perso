@@ -21,55 +21,33 @@ Signification :
 •	--build : force la reconstruction des images, même si elles existent déjà.
 
 Nettoyer les conteneurs orphelins
-
-docker compose down --remove-orphans
+•docker compose down --remove-orphans
 
 
 Lister tous les conteneurs du projet :
+• docker compose ps --all
 
-docker compose ps --all
-
-1.	MariaDB : la base de données relationnelle qui stocke le contenu de votre site WordPress.
-2.	WordPress : l'application PHP qui génère et gère votre site web.
-3.	Nginx : le serveur web qui sert les fichiers statiques et redirige les requêtes vers le service WordPress via PHP-FPM.
 
 https://www.simplehomelab.com/wordpress-on-docker-traefik/?utm_source=chatgpt.com
 
-docker compose up -d
 
 
- 
-
-
-✅ 1. Vérifier l'état des conteneurs
-Pour vous assurer que tous les services fonctionnent correctement, exécutez la commande suivante : docker compose ps
-
- 
-
-Redémarrez les services Docker : docker compose up -d
-
-
- 
-
-🔄 2. Redémarrer les services Docker
+🔄  Redémarrer les services Docker
 Après avoir vérifié ou modifié le fichier docker-compose.yml, redémarrez les services Docker pour appliquer les changements :
-docker compose down
-docker compose up -d
+• docker compose down
+• docker compose up -d
 
 
-Permissions : Vérifiez que les permissions du répertoire monté sont correctes. Les conteneurs doivent avoir les droits nécessaires pour lire et écrire dans ce répertoire. Vous pouvez ajuster les permissions avec la commande suivante sur votre machine hôte :
-bash
-CopierModifier
-sudo chown -R 33:33 /chemin/vers/votre/dossier/wordpress
+Permissions : Vérifiez que les permissions du répertoire monté sont correctes. 
+Les conteneurs doivent avoir les droits nécessaires pour lire et écrire dans ce répertoire.
+# sudo chown -R 33:33 /chemin/vers/votre/dossier/wordpress
 https://forums.docker.com/t/nginx-proxy-manager-cant-connect-to-docker-containers-502-bad-gateway/146451
 
-Vérifier le contenu du volume
-Pour vérifier que le volume contient bien les fichiers de WordPress, vous pouvez exécuter la commande suivante :
-docker run --rm -v wordpress_data:/data alpine ls /data
+🔄 Vérifier le contenu du volume
+exemple pour vérifier que le volume contient bien les fichiers de WordPress :
+# docker run --rm -v wordpress_data:/data alpine ls /data
 
-
-
-ocalisation des volumes Docker sur Windows
+🔄 Localisation des volumes Docker sur Windows
 Pour accéder à vos volumes Docker, y compris wordpress_data, suivez ces étapes :
 1.	Ouvrir l'Explorateur de fichiers : Appuyez sur Win + E pour ouvrir l'Explorateur de fichiers.
 2.	Accéder au chemin réseau : Dans la barre d'adresse de l'Explorateur, entrez le chemin suivant :
@@ -77,28 +55,20 @@ Pour accéder à vos volumes Docker, y compris wordpress_data, suivez ces étape
 \\wsl.localhost\docker-desktop\mnt\docker-desktop-disk\data\docker\volumes
  
 
-Voir les conteneurs :
-
-
-
+🔄 Voir les conteneurs :
 Accéder au conteneur WordPress :
-docker exec -it wordpress bash
+# docker exec -it wordpress bash
 
-Modifier les permissions :
-chown -R www-data:www-data /var/www/html
+🔄 Modifier les permissions :
+# chown -R www-data:www-data /var/www/html
  
 
-Enregistrer l’historique des commandes CMD dans un fichier texte
-Sous CMD (invite de commandes), tu peux utiliser la commande suivante pour copier l'historique des commandes exécutées dans un fichier texte :
+🔄 Enregistrer l’historique des commandes CMD dans un fichier texte
 cmd
+# doskey /history > commandes.txt
 
-doskey /history > commandes.txt
-
-Supprimer les volumes de données pour tout nettoyer complètement :
-docker-compose down --volumes
-
-Arrêter tous les services définis dans le docker-compose.yml :
-docker-compose down
+🔄 Supprimer les volumes de données pour tout nettoyer complètement :
+# docker-compose down --volumes
 
 https://medium.com/cypik/deploying-a-php-web-app-with-docker-compose-nginx-and-mariadb-a-complete-guide-d8940f23f1de
 
@@ -118,13 +88,6 @@ MYSQL_USER=Laplateforme           # Nom d'utilisateur pour la base de données
 MYSQL_PASSWORD=Laplateforme       # Mot de passe de l'utilisateur MySQL
 MYSQL_DATABASE=wordpress          # Nom de la base de données à créer
 
-Mise en route des conteneurs
- 
-
-Problemes rencontrésd
-
-Structure du docker-compose.yml
-Nous auron
 
 s les services suivants :
 •	nginx : pour servir WordPress et phpMyAdmin.
@@ -133,9 +96,4 @@ s les services suivants :
 •	phpMyAdmin : interface web pour gérer MariaDB.
 
 
-
-
- 
-
-Suppression de la version
 
