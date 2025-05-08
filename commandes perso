@@ -1,8 +1,4 @@
-Explication des messages
-•	✔ php Built : Cela signifie que l'image Docker pour le service PHP a été construite avec succès.
-•	✔ Container mariadb Running : Le conteneur MariaDB est en cours d'exécution.
-•	✔ Container nginx Started : Le conteneur Nginx a démarré avec succès.
-•	✔ Container php-fpm Started : Le conteneur PHP-FPM a démarré avec succès.
+
 DOCKER-COMPOSE_PLATEFORME
 
 
