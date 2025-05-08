@@ -1,6 +1,7 @@
 # DOCKER-COMPOSE_PLATEFORME
-Exercice  
+
 ```bash
+
 ✅ Objectif :
 Utiliser les images officielles : nginx, mariadb, php (via php:fpm).
 
