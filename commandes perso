@@ -73,6 +73,22 @@ cmd
 🔄 Supprimer les volumes de données pour tout nettoyer complètement :
 # docker-compose down --volumes
 
+🔄 Mettre à jour la configuration de Nginx ( syntaxe dans le fichier nginx.conf)
+# include fastcgi-php.conf;
+
+🔄 Redémarrer le conteneur Nginx
+# docker start nginx
+
+🔄 docker logs nginx
+# docker ps -a
+
+🔄 Vérifier que les fichiers sont correctement monté 
+# docker exec -it nginx /bin/bash 
+
+🔄 Vérifier les logs de Nginx
+# docker logs nginx
+
+
 
 Arborescence
 
