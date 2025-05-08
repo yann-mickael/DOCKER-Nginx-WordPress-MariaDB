@@ -24,6 +24,10 @@ Signification :
 # docker compose ps --all
 
 
+🔄 Recharger la configuration après modification
+# docker exec -it nginx nginx -s reload
+
+
 
 🔄  Redémarrer les services Docker
 Après avoir vérifié ou modifié le fichier docker-compose.yml, redémarrez les services Docker pour appliquer les changements :
@@ -46,7 +50,13 @@ Pour accéder à vos volumes Docker, y compris wordpress_data, suivez ces étape
 2.	Accéder au chemin réseau : Dans la barre d'adresse de l'Explorateur, entrez le chemin suivant :
 
 \\wsl.localhost\docker-desktop\mnt\docker-desktop-disk\data\docker\volumes
- 
+
+🔄 Vérifier l'état des conteneurs
+docker ps
+
+🔄 Conteneur arrêté, le relancer
+docker start nginx
+
 
 🔄 Voir les conteneurs :
 Accéder au conteneur WordPress :
