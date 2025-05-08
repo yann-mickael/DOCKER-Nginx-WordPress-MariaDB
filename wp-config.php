@@ -22,13 +22,13 @@
 define( 'DB_NAME', 'wordpress' );
 
 /** Nom d'utilisateur MySQL */
-define( 'DB_USER', 'username' ); // Remplace "username" par le nom d'utilisateur approprié (par exemple, 'root' si nécessaire)
+define( 'DB_USER', 'username' );
 
 /** Mot de passe MySQL */
-define( 'DB_PASSWORD', 'password' ); // Remplace "password" par le mot de passe approprié
+define( 'DB_PASSWORD', 'password' ); // Remplacer "password" par le mot de passe approprié
 
 /** Adresse de l’hôte MySQL */
-define( 'DB_HOST', 'mariadb:3306' ); // Change 'mysql' en 'mariadb' si tu utilises MariaDB dans Docker
+define( 'DB_HOST', 'mariadb:3306' ); // Changer 'mysql' en 'mariadb' -  MariaDB dans Docker
 
 /** Jeu de caractères à utiliser par la base de données */
 define( 'DB_CHARSET', 'utf8' );
@@ -44,21 +44,21 @@ define( 'DB_COLLATE', '' );
  *
  * Modifier ces valeurs révoquera tous les cookies existants. Tous les utilisateurs devront se reconnecter.
  */
-define( 'AUTH_KEY',         'mets ici ta phrase unique' );
-define( 'SECURE_AUTH_KEY',  'mets ici ta phrase unique' );
-define( 'LOGGED_IN_KEY',    'mets ici ta phrase unique' );
-define( 'NONCE_KEY',        'mets ici ta phrase unique' );
-define( 'AUTH_SALT',        'mets ici ta phrase unique' );
-define( 'SECURE_AUTH_SALT', 'mets ici ta phrase unique' );
-define( 'LOGGED_IN_SALT',   'mets ici ta phrase unique' );
-define( 'NONCE_SALT',       'mets ici ta phrase unique' );
+
+define( 'AUTH_KEY',            '' );
+define( 'SECURE_AUTH_KEY',     '' );
+define( 'LOGGED_IN_KEY',       '' );
+define( 'NONCE_KEY',           '' );
+define( 'AUTH_SALT',           '' );
+define( 'SECURE_AUTH_SALT',    '' );
+define( 'LOGGED_IN_SALT',      '' );
+define( 'NONCE_SALT',          '' );
+
 
 /**#@-*/
 
 /**
- * Préfixe des tables WordPress.
- *
- * Tu peux avoir plusieurs installations de WordPress dans une même base de données si tu leur donnes des préfixes uniques.
+ * Préfixe des tables WordPress..
  * Par exemple : 'wp_' (par défaut).
  */
 $table_prefix  = 'wp_';
@@ -67,7 +67,7 @@ $table_prefix  = 'wp_';
  * Pour le débogage WordPress.
  *
  * Change cette valeur à TRUE pour activer le mode débogage dans WordPress.
- * Il est fortement conseillé de le laisser à FALSE lors de l'utilisation en production.
+ * Conseillé de le laisser à FALSE lors de l'utilisation en production.
  */
 define( 'WP_DEBUG', false );
 
