@@ -1,61 +1,46 @@
 
 services:
   mariadb:
-    image: mariadb:latest
+    image: mariadb:10.5  # Image de la base de données MariaDB
     container_name: mariadb
-    restart: unless-stopped
-    env_file:
-      - .env
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: username
+      MYSQL_PASSWORD: password
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql  # persistance des données
 
-  wordpress:
-    image: wordpress:latest
-    container_name: wordpress
-    restart: unless-stopped
-    depends_on:
-      - mariadb
-    env_file:
-      - .env
-    environment:
-      WORDPRESS_DB_HOST: mariadb:3306
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+  php:
+    build: ./php                        # Dockerfile dans le dossier ./php
+    container_name: php
+    restart: always
     volumes:
-      - wordpress_data:/var/www/html
-
-  phpmyadmin:
-    image: phpmyadmin:latest
-    container_name: phpmyadmin
-    restart: unless-stopped
+      - ./www:/var/www/html             # ton WordPress est monté ici
     depends_on:
-      - mariadb
-    env_file:
-      - .env
-    environment:
-      PMA_HOST: mariadb
-      PMA_PORT: 3306
-    ports:
-      - "8080:80"
+      - mariadb                         # dépend de MariaDB
 
   nginx:
     image: nginx:latest
     container_name: nginx
-    depends_on:
-      - wordpress
-      - phpmyadmin
     ports:
-      - "80:80"
+      - "80:80"                       # exposer sur http://localhost:8000
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - wordpress_data:/var/www/html:ro
-volumes:
+      - ./www:/var/www/html             # même dossier WordPress
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # chemin modifié vers nginx.conf
+    depends_on:
+      - php                             # dépend de php
 
-  db_data:
-  wordpress_data:
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"                       # accessible sur http://localhost:8080
+    environment:
+      PMA_HOST: mariadb                # phpMyAdmin pointe sur le conteneur mariadb
+      PMA_PORT: 3306
+
+volumes:
+  db_data:                              # volume pour la base de données
