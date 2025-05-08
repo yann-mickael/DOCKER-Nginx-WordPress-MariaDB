@@ -7,7 +7,7 @@ DOCKER-COMPOSE_PLATEFORME
 
 
 
-Vérifier la version de Docker
+🔄 Vérifier la version de Docker
 Docker -v
 Docker version compose
 
