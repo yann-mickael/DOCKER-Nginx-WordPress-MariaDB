@@ -1,6 +1,7 @@
 # DOCKER-COMPOSE_PLATEFORME
 
 
+
 ✅  Objectif :
 ```bash
 #### Utiliser les images officielles : nginx, mariadb, php (via php:fpm).
@@ -107,6 +108,7 @@ server {
         fastcgi_index index.php;
         fastcgi_par
 ```
+📎 [Fichiers sur Drive](https://drive.google.com/drive/folders/1tUA7FBDm_EbGoeDOvavVqVDkVb-SsP-O?usp=drive_link)
 
 
 
