@@ -109,7 +109,7 @@ server {
         fastcgi_par
 ```
 📎 [Fichiers sur Drive](https://drive.google.com/drive/folders/1tUA7FBDm_EbGoeDOvavVqVDkVb-SsP-O?usp=drive_link)
-
 ![Image](https://github.com/user-attachments/assets/2bd41256-00e8-4afe-aa94-b5be091934aa)
+![Image](https://github.com/user-attachments/assets/fa352e3e-d077-48c5-bff3-3fc2f0ba14ca)
 
 
