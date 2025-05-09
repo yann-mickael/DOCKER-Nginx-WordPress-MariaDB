@@ -86,11 +86,9 @@ volumes:
   db_data:                              # volume pour la base de données
 ```
 
-📄 nginx/default.conf (fichier indispensable)
+📄 nginx/default.conf
 ```
-nginx
-Copier
-Modifier
+
 server {
     listen 80;
     server_name localhost;
