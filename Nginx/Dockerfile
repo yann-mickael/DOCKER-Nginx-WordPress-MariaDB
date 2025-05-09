@@ -1,8 +1,8 @@
 FROM nginx:latest
 
-# Remove default configuration files
+# Supprime les fichiers de configuration par défaut
 RUN rm /etc/nginx/conf.d/default.conf; exit 0
 
-# Copy our custom config files to Nginx Contatiner
+# Copier nos fichiers de configuration personnalisés dans le conteneur Nginx
 COPY conf/nginx.conf /etc/nginx
 COPY conf/conf.d /etc/nginx/conf.d
