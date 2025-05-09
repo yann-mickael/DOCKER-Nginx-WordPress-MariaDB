@@ -1,6 +1,6 @@
 FROM php:7.4-fpm
 
-# install PHP extensions (gd, mysqli, opcache and zip)
+# installe l'extention PHP (gd, mysqli, opcache and zip)
 RUN set -ex; \
     apt-get update; \
     apt-get install -y \
@@ -13,7 +13,7 @@ RUN set -ex; \
     docker-php-ext-configure gd; \
     docker-php-ext-install gd mysqli opcache zip
 
-# set recommended PHP.ini settings for opcache
+# définir les paramètres PHP.ini recommandés pour opcache
 RUN { \
     echo 'opcache.memory_consumption=256'; \
     echo 'opcache.interned_strings_buffer=8'; \
@@ -23,7 +23,7 @@ RUN { \
     echo 'opcache.enable_cli=1'; \
     } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-# PHP.ini settings for execution and uploads
+# Paramètres PHP.ini pour l'exécution et les téléchargements
 RUN { \
     echo 'file_uploads = On'; \
     echo 'upload_max_filesize = 128M'; \
@@ -33,7 +33,7 @@ RUN { \
     echo 'max_input_time = 600'; \
     } > /usr/local/etc/php/php.ini
 
-# Create /www directory if not exists
+# Créer le répertoire /www s'il n'existe pas
 RUN mkdir -p /www && chmod -R 755 /www && chown -R www-data:www-data /www
 
 
