@@ -1,6 +1,6 @@
 # DOCKER Nginx - WordPress MariaDb
 
-[Copiez les fichiers WordPress dans le répertoire www et téléchargez WordPress depuis ce lien](https://fr.wordpress.org/download/)
+[Téléchargez dernière mise à jour WordPress et copier dans répertoire ./WWW ](https://fr.wordpress.org/download/)
 
 ✅  Objectif :
 ```bash
