@@ -9,7 +9,7 @@ Utiliser les images officielles : nginx, mariadb, php (via php:fpm).
 Télécharger la dernière version de WordPress.
 Mettre en place un volume partagé pour /var/www/html entre NGINX, PHP et WordPress.
 Configuration manuelle du serveur.
-```
+``` 
 🧩 Arborescence recommandée :
 📁 Structure du projet
 ```
