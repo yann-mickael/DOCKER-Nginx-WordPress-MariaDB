@@ -58,7 +58,7 @@ define( 'NONCE_SALT',       'mets ici ta phrase unique' );
 /**
  * Préfixe des tables WordPress.
  *
- * Tu peux avoir plusieurs installations de WordPress dans une même base de données si tu leur donnes des préfixes uniques.
+ * Tu peux avoir plusieurs installations de WordPress dans une même base de  données si tu leur donnes des préfixes uniques.
  * Par exemple : 'wp_' (par défaut).
  */
 $table_prefix  = 'wp_';
