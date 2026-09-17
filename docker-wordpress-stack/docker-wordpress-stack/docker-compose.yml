@@ -1,0 +1,108 @@
+services:
+  mariadb:
+    image: mariadb:${MARIADB_VERSION}
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${WORDPRESS_DB_NAME}
+      MYSQL_USER: ${WORDPRESS_DB_USER}
+      MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+    volumes:
+      - ./data/mariadb:/var/lib/mysql
+    networks: [web]
+    # Port 3306 volontairement NON publié : la base ne doit être
+    # joignable que depuis les autres conteneurs du réseau "web".
+    # Décommenter uniquement pour du debug local ponctuel :
+    # ports:
+    #   - "3306:3306"
+
+  wordpress:
+    image: wordpress:${WORDPRESS_VERSION}
+    container_name: wordpress
+    restart: always
+    depends_on: [mariadb]
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_TABLE_PREFIX: ${WORDPRESS_TABLE_PREFIX}
+    volumes:
+      - ./data/wordpress:/var/www/html
+    networks: [web]
+    # Pas de wp-config.php manuel : l'image officielle le génère
+    # automatiquement à partir des variables WORDPRESS_DB_* ci-dessus.
+
+  phpmyadmin:
+    image: phpmyadmin:${PHPMYADMIN_VERSION}
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: ${WORDPRESS_DB_USER}
+      PMA_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+    ports:
+      - "8081:80"
+    depends_on: [mariadb]
+    networks: [web]
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "${NGINX_HTTP_PORT}:80"
+      - "${NGINX_HTTPS_PORT}:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/webroot:/var/www/certbot
+      - ./certbot/letsencrypt:/etc/letsencrypt
+      - ./nginx/certificates:/etc/nginx/certificates:ro
+      - nginx_logs:/var/log/nginx
+    depends_on: [wordpress, phpmyadmin]
+    networks: [web]
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/webroot:/var/www/certbot
+      - ./certbot/letsencrypt:/etc/letsencrypt
+    entrypoint: "/bin/sh -c"
+    # ATTENTION : ne fonctionne que si DOMAIN_NAME est un nom de
+    # domaine public résolvable pointant vers ce serveur. Avec
+    # DOMAIN_NAME=localhost (valeur par défaut), Certbot échouera
+    # systématiquement — utiliser le certificat auto-signé à la
+    # place (voir README, section SSL).
+    command: >
+      "sleep 10 &&
+      certbot certonly --webroot
+      --webroot-path=/var/www/certbot
+      --email ${SSL_EMAIL}
+      --agree-tos
+      --no-eff-email
+      -d ${DOMAIN_NAME}"
+    networks: [web]
+
+  fail2ban:
+    build: ./fail2ban
+    container_name: fail2ban
+    restart: always
+    cap_add: [NET_ADMIN, NET_RAW]
+    volumes:
+      - ./fail2ban/jail.local:/etc/fail2ban/jail.local:ro
+      # Volume nommé PARTAGÉ avec le conteneur nginx (et non un
+      # chemin de l'hôte, qui n'existe pas côté Windows/Mac et ne
+      # contient pas les logs du conteneur nginx).
+      - nginx_logs:/var/log/nginx:ro
+    depends_on: [nginx]
+    networks: [web]
+
+networks:
+  web:
+    driver: bridge
+
+volumes:
+  nginx_logs:
